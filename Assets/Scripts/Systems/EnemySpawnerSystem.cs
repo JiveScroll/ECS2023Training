@@ -50,5 +50,8 @@ public partial struct SpawnEnemyJob : IJobEntity
         Entity newEnemy = ECB.Instantiate(gameWorldAspect.EnemyPrefab);
         LocalTransform newEnemyTransform = gameWorldAspect.GetEnemySpawnPoint();
         ECB.SetComponent(newEnemy, newEnemyTransform);
+
+        var enemyHeading = MathHelpers.GetHeading(newEnemyTransform.Position, gameWorldAspect.Position);
+        ECB.SetComponent(newEnemy, new EnemyHeading { Value = enemyHeading });
     }
 }

@@ -30,12 +30,14 @@ public readonly partial struct GameWorldAspect : IAspect
         z = _gameWorldProperties.ValueRO.GameWorldDimensions.y * 0.5f
     };
 
+    private int enemySpawnPointCount => _enemySpawnPoints.ValueRO.Value.Value.Value.Length;
+
     public Entity SpawnerPrefab => _gameWorldProperties.ValueRO.SpawnerPrefab;
     public Entity EnemyPrefab => _gameWorldProperties.ValueRO.EnemyPrefab;
 
-    public int NumberSpawnersToSpawn => _gameWorldProperties.ValueRO.SpawnersToSpawn;
-    private int enemySpawnPointCount => _enemySpawnPoints.ValueRO.Value.Value.Value.Length;
+    public float3 Position => _transform.ValueRO.Position;
 
+    public int NumberSpawnersToSpawn => _gameWorldProperties.ValueRO.SpawnersToSpawn;
 
     public LocalTransform GetRandomSpawnerTransform()
     {
