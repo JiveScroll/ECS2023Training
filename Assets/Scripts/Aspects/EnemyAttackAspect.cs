@@ -23,19 +23,19 @@ public readonly partial struct EnemyAttackAspect : IAspect
         set => _enemyTimer.ValueRW.Value = value;
     }
 
-    public void Attack(float deltaTime)
+    public void Attack(float deltaTime, EntityCommandBuffer.ParallelWriter ecb, int sortKey, Entity baseEntity)
     {
         EnemyTimer += deltaTime;
         float attackAngle = AttackMovementAmplitude * math.sin(AttackMovementFrequency * EnemyTimer);
         _transform.ValueRW.Rotation = quaternion.Euler(attackAngle, Heading, 0);
 
-        //var eatDamage = AttackDamagePerSecond * deltaTime;
-        
-        //var curBrainDamage = new BrainDamageBufferElement { Value = eatDamage };
-        //ecb.AppendToBuffer(sortKey, playerBaseEntity, curBrainDamage);
+        float attackDamage = AttackDamagePerSecond * deltaTime;
+        var currentBaseDamage = new BaseDamageBufferElement { Value = attackDamage };
+
+        ecb.AppendToBuffer(sortKey, baseEntity, currentBaseDamage);
     }
 
-    public bool IsInEatingRange(float3 playerBasePosition, float playerBaseRadiusSq)
+    public bool IsInAttackRange(float3 playerBasePosition, float playerBaseRadiusSq)
     {
         return math.distancesq(playerBasePosition, _transform.ValueRO.Position) <= playerBaseRadiusSq - 1;
     }

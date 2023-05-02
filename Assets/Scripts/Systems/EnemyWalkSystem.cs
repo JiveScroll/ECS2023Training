@@ -30,7 +30,7 @@ public partial struct EnemyWalkSystem: ISystem
         LocalTransform playerBaseTransform = SystemAPI.GetComponent<LocalTransform>(playerBaseEntity);
 
         float3 playerBasePosition = playerBaseTransform.Position;
-        float playerBaseRadius = playerBaseTransform.Scale * 5f + 0.5f;
+        float playerBaseRadius = playerBaseTransform.Scale * 5f + 2f;
 
         new EnemyWalkJob
         {
@@ -54,7 +54,7 @@ public partial struct EnemyWalkJob : IJobEntity
     private void Execute(EnemyMovementAspect enemy, [ChunkIndexInQuery] int sortKey)
     {
         enemy.Walk(DeltaTime);
-        if (enemy.IsInStoppingRange(float3.zero, StoppingPositionRadiusSq))
+        if (enemy.IsInStoppingRange(StoppingPosition, StoppingPositionRadiusSq))
         {
             ECB.SetComponentEnabled<EnemyMovementProperties>(sortKey, enemy.Entity, false);
             ECB.SetComponentEnabled<EnemyAttackProperties>(sortKey, enemy.Entity, true);

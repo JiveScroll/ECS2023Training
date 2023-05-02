@@ -605,12 +605,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RiseRate: 0.5
-  WalkSpeed: 0.4
+  WalkSpeed: 0.7
   WalkAmplitude: 0.5
   WalkFrequency: 2
   DamagePerSecond: 1
   AttackMovementAmplitude: 0.2
-  AttackMovementFrequency: 10
+  AttackMovementFrequency: 5
 --- !u!1 &8825418356969368440
 GameObject:
   m_ObjectHideFlags: 0

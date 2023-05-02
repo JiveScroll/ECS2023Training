@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Systems\EnemySpawnerSystem.cs" />
+    <Compile Include="Assets\Scripts\Systems\CameraControllerSystem.cs" />
     <Compile Include="Assets\Scripts\Systems\EnemyAttackSystem.cs" />
     <Compile Include="Assets\Scripts\AuthoringAndMono\EnemyMono.cs" />
     <Compile Include="Assets\Scripts\ComponentsAndTags\GameWorldProperties.cs" />
@@ -78,12 +79,16 @@
     <Compile Include="Assets\Scripts\Aspects\EnemyMovementAspect.cs" />
     <Compile Include="Assets\Scripts\Systems\EnemyRiseSystem.cs" />
     <Compile Include="Assets\Scripts\ComponentsAndTags\EnemySpawnPoints.cs" />
+    <Compile Include="Assets\Scripts\Systems\BaseApplyDamageSystem.cs" />
     <Compile Include="Assets\Scripts\AuthoringAndMono\PlayerBaseMono.cs" />
     <Compile Include="Assets\Scripts\AuthoringAndMono\GameWorldManagerMono.cs" />
+    <Compile Include="Assets\Scripts\DynamicBuffers\BaseDamageBufferElement.cs" />
     <Compile Include="Assets\Scripts\Aspects\EnemyRiseAspect.cs" />
+    <Compile Include="Assets\Scripts\AuthoringAndMono\CameraSingleton.cs" />
     <Compile Include="Assets\Scripts\Systems\EnemyWalkSystem.cs" />
     <Compile Include="Assets\Scripts\Aspects\GameWorldAspect.cs" />
     <Compile Include="Assets\Scripts\Systems\SpawnSpawnerSystem.cs" />
+    <Compile Include="Assets\Scripts\Aspects\PlayerBaseAspect.cs" />
     <Compile Include="Assets\Scripts\Helpers\MathHelpers.cs" />
     <Compile Include="Assets\Scripts\Systems\InitialiseEnemySystem.cs" />
     <Compile Include="Assets\Scripts\ComponentsAndTags\EnemyRiseRate.cs" />

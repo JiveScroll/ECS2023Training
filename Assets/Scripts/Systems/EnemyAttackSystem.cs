@@ -24,10 +24,21 @@ public partial struct EnemyAttackSystem : ISystem
     public void OnUpdate(ref SystemState state)
     {
         float deltaTime = SystemAPI.Time.DeltaTime;
+        var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
+        var baseEntity = SystemAPI.GetSingletonEntity<PlayerBaseTag>();
+
+        LocalTransform baseLocalTransform = SystemAPI.GetComponent<LocalTransform>(baseEntity);
+        float3 basePosition = baseLocalTransform.Position;
+        float baseScale = baseLocalTransform.Scale;
+        float baseRadius = baseScale * 5f + 3f;
 
         new EnemyAttackJob
         {
-            DeltaTime = deltaTime,     
+            DeltaTime = deltaTime,
+            ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
+            BaseEntity = baseEntity,
+            BasePosition = basePosition,
+            BaseRadiusSq = baseRadius
         }.ScheduleParallel();
     }
 }
@@ -36,10 +47,23 @@ public partial struct EnemyAttackSystem : ISystem
 public partial struct EnemyAttackJob : IJobEntity
 {
     public float DeltaTime;
+    public EntityCommandBuffer.ParallelWriter ECB;
+    public Entity BaseEntity;
+    public float3 BasePosition;
+    public float BaseRadiusSq;
 
     [BurstCompile]
-    private void Execute(EnemyAttackAspect enemy)
+    private void Execute(EnemyAttackAspect enemy, [ChunkIndexInQuery]int sortKey)
     {
-        enemy.Attack(DeltaTime);        
+        if (enemy.IsInAttackRange(BasePosition, BaseRadiusSq))
+        {
+            enemy.Attack(DeltaTime, ECB, sortKey, BaseEntity);
+
+        }
+        else
+        {
+            ECB.SetComponentEnabled<EnemyAttackProperties>(sortKey, enemy.Entity, false);
+            ECB.SetComponentEnabled<EnemyMovementProperties>(sortKey, enemy.Entity, true);
+        }
     }
 }
